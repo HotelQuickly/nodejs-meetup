@@ -1,0 +1,23 @@
+#Login to docker
+docker login
+
+#Build docker image
+docker build -t dzmitryf/nodejs-meetup ./docker/
+
+#Push docker image
+docker push dzmitryf/nodejs-meetup
+
+#Pull docker file
+docker pull dzmitryf/nodejs-meetup
+
+#Start mysql docker container
+docker run -d -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes dzmitryf/nodejs-meetup
+
+#Start env
+docker-compose up -d
+
+#Run tests
+docker-compose run --rm app ./docker-start.sh test
+
+#Run partially
+docker-compose up -d data
