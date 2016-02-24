@@ -1,5 +1,6 @@
 'use strict'
 
+const errors = require('./errors')
 const express = require('express')
 const business = require('./business')
 const bodyParser = require('body-parser')
@@ -17,5 +18,15 @@ app.get('/offers', (req, res) => {
 })
 
 app.post('/book', (req, res) => {
-  res.end()
+  business
+    .bookOffer(req.body.offerId)
+    .then(() => {
+      res.end()
+    })
+    .catch(err => {
+      if (err instanceof errors.OfferNotValid) {
+        return res.status(400).end()
+      }
+      throw err
+    })
 })
