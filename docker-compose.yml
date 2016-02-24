@@ -1,0 +1,16 @@
+data:
+  image: dzmitryf/nodejs-meetup
+  ports:
+  - 3306:3306
+  environment:
+  - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+app:
+  build: .
+  dockerfile: ./Dockerfile
+  ports:
+  - 3000:3000
+  links:
+  - data
+  environment:
+  - NODE_ENV=test
+  - MYSQL_CONNECTION=mysql://root:@data:3306/booking
