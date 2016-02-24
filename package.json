@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
+    "eslint": "eslint app/**",
     "itest": "mocha ./test/integration/index.test.js"
   },
   "author": "",
@@ -17,11 +18,16 @@
     "mysql2": "^0.15.8"
   },
   "devDependencies": {
+    "@hotelquickly/eslint-config-hotelquickly": "1.0.0",
     "chance": "^1.0.0",
+    "eslint": "^2.1.0",
     "mocha": "^2.4.5",
     "moment": "^2.11.2",
     "should": "^8.2.2",
     "sql-fixtures": "^1.0.0",
     "supertest": "^1.2.0"
+  },
+  "eslintConfig": {
+    "extends": "@hotelquickly/eslint-config-hotelquickly"
   }
 }
