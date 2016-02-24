@@ -8,6 +8,7 @@ const fixtures = require('./fixtures')
 const expressApp = require('../../app/express-app')
 
 const wrapper = supertest(expressApp)
+const dataClient = fixtures.dataClient
 
 describe('integration', () => {
 
@@ -41,6 +42,44 @@ describe('integration', () => {
         })
 
       })
+    })
+  })
+
+  describe('POST book', () => {
+
+    it('should deny to book already booked offer', done => {
+      wrapper
+        .post('/book')
+        .send({offerId: offers.invalid[0].id})
+        .expect(400, done)
+    })
+
+    it('should create order for valid booked offer', done => {
+      const offerId = offers.valid[0].id
+      wrapper
+        .post('/book')
+        .send({offerId})
+        .expect(200, (err) => {
+          if (err) {
+            return done(err)
+          }
+
+          dataClient
+            .select()
+            .from('order')
+            .where({
+              'offer_id': offerId
+            })
+            .then(orders => {
+              try {
+                orders.should.have.length(1)
+              } catch (e) {
+                return done(e)
+              }
+
+              done()
+            })
+        })
     })
   })
 })
